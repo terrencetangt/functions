@@ -4,8 +4,13 @@ This is my note for myself in my python programming journey. The purpose is to n
 Content
 
 A. Math Functions
+
 B. String Functions
+
 C. Date and Time Functions
+
 D. Operating Systems
+
 E. Data Functions
+
 F. Image Functions
