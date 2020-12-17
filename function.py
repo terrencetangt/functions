@@ -1,8 +1,11 @@
 #Content
 #A. Math Functions
 #B. String Functions
-#C. Operating Systems
-#D. Data Functions
+#C. Date and Time Functions
+#D. Operating Systems
+#E. Data Functions
+#F. Image Functions
+
 
 #A. Math Functions
 #No. of Digits
@@ -31,6 +34,59 @@ def isprime(n: int) -> bool:
         i += 6
     return True
 
+#Sieve of Eratosthenes of generating primes
+def SieveOfEratosthenes(n):
+    primes = []
+    primeb = [True for i in range(n + 1)]
+    p = 2
+    while (p * p <= n):
+        if (primeb[p] == True):
+            for i in range(p * 2, n + 1, p):
+                primeb[i] = False
+        p += 1
+    primeb[0]= False
+    primeb[1]= False
+    for p in range(n + 1):
+        if primeb[p]:
+            primes.append(p)
+    return tuple(primes)
+
+#return all prime factors list of a number
+def prime_factors(n):
+    factor = []
+    i = 2
+    while n > 1:
+        while n % i == 0:
+            factor.append(i)
+            n = n / i
+        i += 1
+    return factor
+
+#return all distinct prime factors list of a number
+def distinct_prime_factors(n):
+    factor = []
+    i = 2
+    while n > 1:
+        while n % i == 0:
+            if i not in factor:
+                factor.append(i)
+            n = n / i
+        i += 1
+    return factor
+
+#Euler's totient function
+def euler_totient(n):
+    factor = distinct_prime_factors(n)
+    p = n
+    for i in range(len(factor)):
+        p = int(p * (1 - 1/factor[i]))
+    return p
+
+#Factorial
+def fact(n):
+    import math
+    return math.factorial(n)
+
 #is permutation or not
 def ispermutate(a: str, b: str):
     if len(a) != len(b):
@@ -46,6 +102,11 @@ def ispermutate(a: str, b: str):
         if a_list[i] != b_list[i]:
             return False
     return True
+
+#Return a list of permutation
+def permutations(pattern):
+    from itertools import permutations
+    return list(permutations(pattern))
 
 #next permutation
 def perm_next(a):
@@ -78,6 +139,9 @@ def gcd(a, b):
         return gcd(b, a % b)
 
 #B. String Functions
+# replace 1 string with another string
+def string_replace(string, oldvalue, newvalue):
+    return string.replace(oldvalue, newvalue)
 # return all splitting combination of a string
 def combos(str):
   yield (str,)
@@ -204,7 +268,29 @@ def regex_sub(regex, replace_word, text):
     import re
     return re.sub(regex, replace_word, text)
 
-#C. Operating Systems
+#C. Date and Time Functions
+#ruturn current time in float
+def now():
+    import time
+    return time.time()
+
+#print the process time of a function (without parameters)
+def time_function(function):
+    from timeit import timeit
+    msg = "The running time is "
+    second = timeit(function, number = 1)
+    if second < 60:
+        print(msg + "{} seconds.".format(second))
+    elif second > 60:
+        minute = int((second % 60 ** 2) // 60)
+        second = second % 60
+        print(msg + "{} minutes and {} seconds".format(minute, second))
+    elif second > 60 ** 2:
+        hour = int(second // (60 ** 2))
+        second = second % 60
+        print(msg + "{} hours {} minutes and {} seconds".format(hour, minute, second))
+
+#D. Operating Systems
 #check harddisk usage
 def check_disk_usage(disk):
     import shutil
@@ -271,7 +357,35 @@ def directory_list(path):
     return os.listdir(path)
 #def check_cpu_usage():
 
-#D. Data Functions
+#E. Data Functions
+#linear serach
+def linear_search(list, key):
+    """If key is in the list returns its position in the list,
+       otherwise returns -1."""
+    for i, item in enumerate(list):
+        if item == key:
+            return i
+    return -1
+
+#binary serach
+def binary_search(sorted_list, key):
+    """Returns the position of key in the list if found, -1 otherwise.
+
+    List must be sorted.
+    """
+    left = 0
+    right = len(list) - 1
+    while left <= right:
+        middle = (left + right) // 2
+
+        if list[middle] == key:
+            return middle
+        if list[middle] > key:
+            right = middle - 1
+        if list[middle] < key:
+            left = middle + 1
+    return -1
+
 #print the csv (List)
 def print_csv(path):
     import csv
@@ -281,3 +395,16 @@ def print_csv(path):
             print(row)
 
 #return the csv file into dictionary
+
+#F. Image Functions
+#Return image
+def image(path):
+    from PIL import Image
+    im = Image.open(path)
+    return im
+
+def image_resize(path, new_path, horizontal, vertical)
+    from PIL import Image
+    im = Image.open(path)
+    new_im = im.resize((horizontal, vertical))
+    new_im.save(new_path)
